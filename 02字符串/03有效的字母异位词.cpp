@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<vector>
 using namespace std;
 
 /*
@@ -11,38 +12,20 @@ bool isAnagram(string s, string t){
     if(n!=m){ // 首先要求输入字符长度一致，才可能是字母异位词
         return false;
     }
-    // 先判断是否有不一样的字符
+    // 这里可以创建一个有26个元素的vector,如果出现则+1,最后判断两个vecotr是否相等
+    vector<int> v1_n(26,0);
+    vector<int> v2_m(26,0);
     for(int i=0;i<n;++i){
-        int cnt=0;
-        for(int j=0;j<n;++j){
-            if(s[i]==t[j]){
-                ++cnt;
-            }
-        }
-        if(cnt==0){
-            cout<<"here"<<endl;
-            return false;
-        }
+        v1_n[s[i]-'a']+=1;
     }
-
-    // 然后再判断出现次数
-    for(int i=0;i<n;++i){
-        int cnt1=0;
-        int cnt2=0;
-        for(int j=0;j<n;++j){
-            if(i!=j && s[i]==s[j]){
-                ++cnt1;
-            }
-            if(i!=j && t[i]==t[j]){  // 因为字母出现的顺序不同也会出现问题，所以考虑一下用一个代表26个字母的数组？
-                ++cnt2;
-            }
-        }
-        if(cnt1!=cnt2){  // 只是用字母出现次数来定，多少不科学，不能确定是不是同一字母
-            cout<<s[i]<<cnt1<<" "<<cnt2<<endl;
-            return false;
-        }
+    for(int i=0;i<m;++i){
+        v2_m[t[i]-'a']+=1;
     }
-    return true;
+    if(v1_n==v2_m){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 int main(){
